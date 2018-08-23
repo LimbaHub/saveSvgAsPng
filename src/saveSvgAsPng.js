@@ -278,7 +278,9 @@
   out$.svgAsDataUri = (el, options, done) => {
     requireDomNode(el);
     const result = out$.prepareSvg(el, options)
-      .then(({src}) => `data:image/svg+xml;base64,${window.btoa(reEncode(doctype+src))}`);
+      .then(({src}) =>{
+			src = src.replace(/(<img[^>]+)>/, "$1 ></img>");
+      return `data:image/svg+xml;base64,${window.btoa(reEncode(doctype+src))}`});
     if (typeof done === 'function') return result.then(done);
     return result;
   };
